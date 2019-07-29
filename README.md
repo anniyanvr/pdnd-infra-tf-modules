@@ -1,10 +1,6 @@
-# {MY_REPO} for Piattaforma Digitale Nazionale Dati (PDND), previously DAF
+# Terraform Modules for Piattaforma Digitale Nazionale Dati (PDND), previously DAF
 
-> Insert here the application logo and badges if present.
-
-> Insert here warnings if necessary (ie. if this is a not stable version).
-
-> Insert here a brief description of what your repository contains. Insert also links to the last release, the official page, the extended documentation, and other useful external resources.
+The repository contains the Terraform modules used to provision and maintain the PDND infrastructure. This should be considered a library of modules to be called from the [Terraform live infrastructure repository](https://github.com/teamdigitale/pdnd-infra-tf-live).
 
 ## What is the PDND (previously DAF)?
 
@@ -12,34 +8,12 @@ PDND stays for "Piattaforma Digitale Nazionale Dati" (the Italian Digital Data P
 
 You can find more informations about the PDND on the official [Digital Transformation Team website](https://teamdigitale.governo.it/it/projects/daf.htm).
 
-## What is {MY_REPO}?
+## Tools references
 
-> Insert here an extended description of the project with informations about context, goals, stakeholders, use cases, and finally the role of the project within the PDND with links to other repositories requiring this code or this code depends on. Embed also screenshots or video if present to give a preview of the application.
+The tools used in this repository are
 
-> Insert here informations about files and folders structure, branch model adopted and release policy.
-
-### Tools references *(optional)*
-
-This project references the following tools.
-
-* [Tool 1](https://link-to-tool-1.com/)
-* [Tool 2](https://link-to-tool-2.com/)
-
-### Project components *(optional)*
-
-This project depends by the following components.
-
-* **Component 1** version X.Y.Z, available [here](https://link-to-your-external-component).
-
-* **Component 2** version X.Y.Z, available [here](https://link-to-your-external-component).
-
-## How to install and use {MY_REPO} *(optional)*
-
-> Insert here a brief documentation to use this project as an end-user (not a developer) if applicable, including pre-requisites and internal and external dependencies. Insert a link to an extended documentation (user manual) if present.
-
-## How to build and test {MY_REPO}
-
-> Insert here a brief documentation for the developer to build, test and contribute. Insert a link to an extended documentation (developer manual) if present.
+* [Terraform](https://www.terraform.io/)
+* [Terragrunt](https://github.com/gruntwork-io/terragrunt)
 
 ## How to contribute
 
