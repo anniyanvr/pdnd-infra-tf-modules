@@ -32,5 +32,5 @@ locals {
   # Define resource names based on the following convention:
   # {azurerm_resource_name_prefix}-RESOURCE_TYPE-{environment}
   azurerm_resource_group_name          = "${var.resource_name_prefix}-${var.environment}-rg"
-  azurerm_log_analytics_workspace_name = "${var.resource_name_prefix}-${var.environment}-log-analytics-${var.log_analytics_workspace_name_suffix}"
+  azurerm_log_analytics_workspace_name = "${var.resource_name_prefix}-${var.environment}-log-analytics-workspace-${var.log_analytics_workspace_name_suffix}"
 }
