@@ -40,6 +40,16 @@ resource "azuread_application" "app" {
       type = "Scope"
     }
   }
+
+  # Azure Service Management
+  required_resource_access {
+    resource_app_id = "797f4846-ba00-4fd7-ba43-dac1f8f63013"
+
+    resource_access {
+      id   = "41094075-9dad-400e-a0bd-54e686782033"
+      type = "Scope"
+    }
+  }
 }
 
 // TODO: Programmatically grant admin access to APIs
