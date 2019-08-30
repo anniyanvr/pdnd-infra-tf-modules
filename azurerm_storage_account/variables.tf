@@ -34,7 +34,12 @@ variable "azurerm_storage_account_is_hns_enabled" {
 
 variable "set_firewall" {
   description = "Whether or not to filter IPs and VNETs access."
-  default = true
+  default     = true
+}
+
+variable "azurerm_storage_account_network_rules_default_action" {
+  description = "The default action applied to incoming traffic if it doesn't match any filtering rule (can be either Allow or Deny)."
+  default     = "Deny"
 }
 
 variable "allowed_subnets" {

@@ -30,6 +30,7 @@ resource "azurerm_storage_account" "storage_account" {
   is_hns_enabled           = "${var.azurerm_storage_account_is_hns_enabled}"
 
   network_rules {
+    default_action             = "${var.azurerm_storage_account_network_rules_default_action}"
     ip_rules                   = ["${var.allowed_ips}"]
     virtual_network_subnet_ids = ["${data.azurerm_subnet.subnets.*.id}"]
   }
