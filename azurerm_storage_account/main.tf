@@ -45,8 +45,10 @@ resource "azurerm_storage_account" "storage_account_no_firewall" {
   name                     = "${local.azurerm_storage_account_name}"
   resource_group_name      = "${data.azurerm_resource_group.rg.name}"
   location                 = "${var.location}"
+  account_kind             = "${var.azurerm_storage_account_account_kind}"
   account_tier             = "${var.azurerm_storage_account_account_tier}"
   account_replication_type = "${var.azurerm_storage_account_account_replication_type}"
+  is_hns_enabled           = "${var.azurerm_storage_account_is_hns_enabled}"
 
   tags = {
     environment = "${var.environment}"
