@@ -28,3 +28,21 @@ resource "azurerm_dns_ns_record" "dev_ns_records" {
     environment = "${var.environment}"
   }
 }
+
+resource "azurerm_dns_ns_record" "prod_ns_records" {
+  name                = "prod"
+  zone_name           = "pdnd.italia.it"
+  resource_group_name = "${data.azurerm_resource_group.rg.name}"
+  ttl                 = "${var.dns_record_ttl}"
+
+  records = [
+    "ns1-06.azure-dns.com",
+    "ns2-06.azure-dns.net",
+    "ns3-06.azure-dns.org",
+    "ns4-06.azure-dns.info"
+  ]
+
+  tags = {
+    environment = "${var.environment}"
+  }
+}
