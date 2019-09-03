@@ -25,7 +25,7 @@ variable "azurerm_key_vault_secret_name" {
 locals {
   # Define resource names based on the following convention:
   # {azurerm_resource_name_prefix}-RESOURCE_TYPE-{environment}
-  azurerm_resource_group_name = "${var.resource_name_prefix}-${var.environment}-rg"
-  azurerm_key_vault_name      = "${var.resource_name_prefix}-${var.environment}-keyvault"
-  azuread_application_name    = "${var.resource_name_prefix}-${var.environment}-sp-${var.app_name}"
+  azurerm_resource_group_name              = "${var.resource_name_prefix}-${var.environment}-rg"
+  azurerm_key_vault_name                   = "${var.resource_name_prefix}-${var.environment}-keyvault"
+  azuread_application_name                 = "${var.resource_name_prefix}-${var.environment}-app-${var.app_name}"
 }

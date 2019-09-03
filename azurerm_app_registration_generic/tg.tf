@@ -3,7 +3,7 @@ provider "azurerm" {
 }
 
 provider "azuread" {
-  version = "~>0.2"
+  version = "~>0.5.1"
 }
 
 terraform {

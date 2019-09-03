@@ -11,16 +11,15 @@ data "azurerm_key_vault" "key_vault" {
   resource_group_name = "${data.azurerm_resource_group.rg.name}"
 }
 
-# New infrastructure
-
-# Create an azurerm application
-resource "azuread_application" "application" {
+data "azuread_application" "application" {
   name = "${local.azuread_application_name}"
 }
 
+# New infrastructure
+
 # Create a azurerm service principal
 resource "azuread_service_principal" "service_principal" {
-  application_id = "${azuread_application.application.application_id}"
+  application_id = "${data.azuread_application.application.application_id}"
 }
 
 # Generate random password
