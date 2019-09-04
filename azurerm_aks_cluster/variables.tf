@@ -86,7 +86,7 @@ locals {
   # Define resource names based on the following convention:
   # {azurerm_resource_name_prefix}-RESOURCE_TYPE-{environment}
   azurerm_resource_group_name                        = "${var.resource_name_prefix}-${var.environment}-rg"
-  azurerm_azuread_service_principal_display_name     = "${var.resource_name_prefix}-${var.environment}-sp-${var.aks_cluster_name}"
+  azurerm_azuread_service_principal_display_name     = "${var.resource_name_prefix}-${var.environment}-app-${var.aks_cluster_name}"
   azurerm_virtual_network_name                       = "${var.resource_name_prefix}-${var.environment}-vnet-${var.vnet_name}"
   azurerm_subnet_name                                = "${var.resource_name_prefix}-${var.environment}-subnet-${var.subnet_name}"
   azurerm_log_analytics_workspace_name               = "${var.resource_name_prefix}-${var.environment}-log-analytics-workspace-${var.log_analytics_workspace_name}"
