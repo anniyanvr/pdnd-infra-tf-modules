@@ -29,6 +29,7 @@ resource "azurerm_dns_ns_record" "dev_ns_records" {
   }
 }
 
+# Name servers for prod.pdnd.italia.it
 resource "azurerm_dns_ns_record" "prod_ns_records" {
   name                = "prod"
   zone_name           = "pdnd.italia.it"
@@ -45,4 +46,14 @@ resource "azurerm_dns_ns_record" "prod_ns_records" {
   tags = {
     environment = "${var.environment}"
   }
+}
+
+# CNAME records for kubernetes services
+resource "azurerm_dns_cname_record" "kubernetes_cname_records" {
+  count               = "${length(var.kubernetes_cname_records)}"
+  name                = "${var.kubernetes_cname_records[count.index]}"
+  resource_group_name = "${data.azurerm_resource_group.rg.name}"
+  zone_name           = "pdnd.italia.it"
+  ttl                 = "${var.dns_record_ttl}"
+  record              = "${var.kubernetes_cname_records[count.index]}.prod.pdnd.italia.it"
 }
