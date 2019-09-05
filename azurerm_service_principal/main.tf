@@ -29,11 +29,10 @@ resource "random_string" "service_principal_password_txt" {
   override_special = "!@#$&*()-_=+[]{}<>:?"
 }
 
-# Set client secret
-resource "azuread_service_principal_password" "service_principal_password" {
-  service_principal_id = "${azuread_service_principal.service_principal.id}"
-  value                = "${random_string.service_principal_password_txt.result}"
-  end_date_relative    = "8760h"
+resource "azuread_application_password" "application_password" {
+  application_object_id = "${data.azuread_application.application.id}"
+  value                 = "${random_string.service_principal_password_txt.result}"
+  end_date_relative     = "8760h"
 
   lifecycle {
     ignore_changes = ["value"]
