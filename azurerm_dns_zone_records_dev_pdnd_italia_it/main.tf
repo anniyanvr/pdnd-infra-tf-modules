@@ -24,7 +24,7 @@ data "azurerm_public_ip" "kubernetes_public_ip" {
 # type still don't support dynamical record value definition (which will
 # be instead supported from Terraform 0.12 with loops)
 
-# Kubernetes start
+# Kubernetes - start
 
 resource "azurerm_dns_a_record" "kubernetes_a_record" {
   name                = "*.${var.aks_cluster_name}"
@@ -43,4 +43,21 @@ resource "azurerm_dns_cname_record" "kubernetes_cname_records" {
   record              = "${var.kubernetes_cname_records[count.index]}.${var.aks_cluster_name}.${local.azurerm_dns_zone_name}"
 }
 
-# Kubernetes end
+# Kubernetes - end
+
+# Website - start
+
+resource "azurerm_dns_a_record" "website_a_record" {
+  name                = "@"
+  zone_name           = "${data.azurerm_dns_zone.dns_zone.name}"
+  resource_group_name = "${data.azurerm_resource_group.rg.name}"
+  ttl                 = "${var.dns_record_ttl}"
+  records             = [
+    "185.199.108.153",
+    "185.199.109.153",
+    "185.199.110.153",
+    "185.199.111.153"
+  ]
+}
+
+# Website - end
