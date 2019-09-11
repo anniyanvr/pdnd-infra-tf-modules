@@ -44,20 +44,3 @@ resource "azurerm_dns_cname_record" "kubernetes_cname_records" {
 }
 
 # Kubernetes - end
-
-# Website - start
-
-resource "azurerm_dns_a_record" "website_a_record" {
-  name                = "@"
-  zone_name           = "${data.azurerm_dns_zone.dns_zone.name}"
-  resource_group_name = "${data.azurerm_resource_group.rg.name}"
-  ttl                 = "${var.dns_record_ttl}"
-  records             = [
-    "185.199.108.153",
-    "185.199.109.153",
-    "185.199.110.153",
-    "185.199.111.153"
-  ]
-}
-
-# Website - end
