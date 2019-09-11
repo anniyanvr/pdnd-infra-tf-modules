@@ -34,6 +34,14 @@ resource "azurerm_dns_a_record" "kubernetes_a_record" {
   records             = ["${data.azurerm_public_ip.kubernetes_public_ip.ip_address}"]
 }
 
+resource "azurerm_dns_a_record" "root_to_kubernetes" {
+  name                = "@"
+  zone_name           = "${data.azurerm_dns_zone.dns_zone.name}"
+  resource_group_name = "${data.azurerm_resource_group.rg.name}"
+  ttl                 = "${var.dns_record_ttl}"
+  records             = ["${data.azurerm_public_ip.kubernetes_public_ip.ip_address}"]
+}
+
 resource "azurerm_dns_cname_record" "kubernetes_cname_records" {
   count               = "${length(var.kubernetes_cname_records)}"
   name                = "${var.kubernetes_cname_records[count.index]}"
