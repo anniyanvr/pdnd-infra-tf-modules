@@ -25,6 +25,16 @@ data "azurerm_subnet" "subnet" {
   resource_group_name  = "${data.azurerm_resource_group.rg.name}"
 }
 
+data "azurerm_key_vault" "key_vault" {
+  name                = "${local.azurerm_key_vault_name}"
+  resource_group_name = "${data.azurerm_resource_group.rg.name}"
+}
+
+data "azurerm_key_vault_secret" "sftp_user_password" {
+  name         = "${var.key_vault_secret_sftp_user_pass}"
+  key_vault_id = "${data.azurerm_key_vault.key_vault.id}"
+}
+
 # New infrastructure
 
 resource "azurerm_network_profile" "network_profile" {
@@ -46,7 +56,7 @@ resource "azurerm_container_group" "container" {
   name                = "${local.azurerm_container_group_name}"
   resource_group_name = "${data.azurerm_resource_group.rg.name}"
   location            = "${data.azurerm_resource_group.rg.location}"
-  network_profile_id  = "${azurerm_network_profile.network_profile.id}"
+  # network_profile_id  = "${azurerm_network_profile.network_profile.id}"
   ip_address_type     = "${var.azurerm_container_group_ip_address_type}"
   os_type             = "Linux"
 
@@ -70,12 +80,12 @@ resource "azurerm_container_group" "container" {
     }
 
     environment_variables {
-      "SFTP_USERS" = "${var.azurerm_container_group_container_sftp_env_users}"
+      "SFTP_USERS" = "${var.azurerm_container_group_container_sftp_user}:${data.azurerm_key_vault_secret.sftp_user_password.value}:1001"
     }
 
     volume {
       name       = "${local.azurerm_container_volume_name}"
-      mount_path = "/home/${var.azurerm_container_group_container_sftp_user}/upload"
+      mount_path = "/home/${var.azurerm_container_group_container_sftp_user}/${local.azurerm_storage_share_name}"
       read_only  = false
       share_name = "${local.azurerm_storage_share_name}"
 

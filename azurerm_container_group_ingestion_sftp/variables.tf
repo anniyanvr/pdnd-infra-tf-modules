@@ -8,10 +8,6 @@ variable "resource_name_prefix" {
   description = "The prefix used to name all resources created."
 }
 
-variable "location" {
-  description = "The data center location where all resources will be put into."
-}
-
 variable "vnet_name" {
   description = "The name suffix of the virtual network where nodes and external load balancers' IPs will be created."
 }
@@ -50,10 +46,6 @@ variable "azurerm_container_group_container_sftp_user" {
   description = "Env variable, that contains the main user."
 }
 
-variable "azurerm_container_group_container_sftp_env_users" {
-  description = "Env variable, that contains the users to created."
-}
-
 variable "storage_account_name" {
   description = "The suffix used to identify the specific Azure storage account"
 }
@@ -62,12 +54,11 @@ variable "storage_account_share_name_suffix" {
   description = "The name of the share."
 }
 
-variable "azurerm_azuread_service_principal_name" {
-  description = "The Display Name of the Azure AD Application associated with this Service Principal."
-}
-
 variable "log_analytics_workspace_name" {
   description = "The name of the log analytics workspace. It will be used as the logs analytics workspace name suffix."
+}
+variable "key_vault_secret_sftp_user_pass" {
+  description = "sftp user password secret name."
 }
 
 locals {
@@ -85,4 +76,6 @@ locals {
   azurerm_storage_account_name                    = "${var.resource_name_prefix}${var.environment}sa${var.storage_account_name}"
   azurerm_storage_share_name                      = "${var.resource_name_prefix}-${var.environment}-sashare-${var.storage_account_share_name_suffix}"
   azurerm_log_analytics_workspace_name            = "${var.resource_name_prefix}-${var.environment}-log-analytics-workspace-${var.log_analytics_workspace_name}"
+  azurerm_key_vault_name                          = "${var.resource_name_prefix}-${var.environment}-keyvault"
+
 }
