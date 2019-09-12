@@ -10,20 +10,53 @@ data "azurerm_virtual_network" "vnet" {
 }
 
 data "azurerm_storage_account" "stg" {
-  name                = "${var.azurerm_storage_account_name}"
+  name                = "${local.azurerm_storage_account_name}"
   resource_group_name = "${data.azurerm_resource_group.rg.name}"
+}
+
+data "azurerm_log_analytics_workspace" "log_analytics_workspace" {
+  name                = "${local.azurerm_log_analytics_workspace_name}"
+  resource_group_name = "${data.azurerm_resource_group.rg.name}"
+}
+
+data "azurerm_subnet" "subnet" {
+  name                 = "${local.azurerm_subnet_name}"
+  virtual_network_name = "${data.azurerm_virtual_network.vnet.name}"
+  resource_group_name  = "${data.azurerm_resource_group.rg.name}"
 }
 
 # New infrastructure
 
+resource "azurerm_network_profile" "network_profile" {
+  name                = "${local.azurerm_container_group_network_profile_name}"
+  resource_group_name = "${data.azurerm_resource_group.rg.name}"
+  location            = "${data.azurerm_resource_group.rg.location}"
+
+  container_network_interface {
+    name = "${local.azurerm_container_group_network_interface_name}"
+
+    ip_configuration {
+      name      = "${local.azurerm_container_group_network_interface_name}-ipconfig"
+      subnet_id = "${data.azurerm_subnet.subnet.id}"
+    }
+  }
+}
+
 resource "azurerm_container_group" "container" {
   name                = "${local.azurerm_container_group_name}"
-  location            = "${data.azurerm_resource_group.rg.location}"
   resource_group_name = "${data.azurerm_resource_group.rg.name}"
-  network_profile_id  = "${data.azurerm_virtual_network.vnet.id}"
+  location            = "${data.azurerm_resource_group.rg.location}"
+  network_profile_id  = "${azurerm_network_profile.network_profile.id}"
   ip_address_type     = "${var.azurerm_container_group_ip_address_type}"
-  dns_name_label      = "${local.azurerm_container_group_dns_name}"
   os_type             = "Linux"
+
+  diagnostics {
+    log_analytics {
+      log_type      = "ContainerInsights"
+      workspace_id  = "${data.azurerm_log_analytics_workspace.log_analytics_workspace.workspace_id}"
+      workspace_key = "${data.azurerm_log_analytics_workspace.log_analytics_workspace.primary_shared_key}"
+    }
+  }
 
   container {
     name   = "${local.azurerm_container_name}"
@@ -44,7 +77,7 @@ resource "azurerm_container_group" "container" {
       name       = "${local.azurerm_container_volume_name}"
       mount_path = "/home/${var.azurerm_container_group_container_sftp_user}/upload"
       read_only  = false
-      share_name = "${azurerm_storage_share.aci-share.name}"
+      share_name = "${local.azurerm_storage_share_name}"
 
       storage_account_name  = "${data.azurerm_storage_account.stg.name}"
       storage_account_key   = "${data.azurerm_storage_account.stg.primary_access_key}"
