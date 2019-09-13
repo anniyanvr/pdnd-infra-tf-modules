@@ -56,7 +56,6 @@ resource "azurerm_container_group" "container" {
   name                = "${local.azurerm_container_group_name}"
   resource_group_name = "${data.azurerm_resource_group.rg.name}"
   location            = "${data.azurerm_resource_group.rg.location}"
-  # network_profile_id  = "${azurerm_network_profile.network_profile.id}"
   ip_address_type     = "${var.azurerm_container_group_ip_address_type}"
   os_type             = "Linux"
 
