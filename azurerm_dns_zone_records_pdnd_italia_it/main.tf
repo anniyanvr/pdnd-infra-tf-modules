@@ -4,6 +4,15 @@ data "azurerm_resource_group" "rg" {
   name = "${local.azurerm_resource_group_name}"
 }
 
+data "azurerm_resource_group" "aks_rg" {
+  name = "${var.kubernetes_resource_group_name}"
+}
+
+data "azurerm_public_ip" "kubernetes_public_ip" {
+  name                = "${local.kubernetes_public_ip_name}"
+  resource_group_name = "${data.azurerm_resource_group.aks_rg.name}"
+}
+
 # New infrastructure
 
 # The module dynamically creates only A and CNAME records, as other record
@@ -60,17 +69,12 @@ resource "azurerm_dns_cname_record" "kubernetes_cname_records" {
 
 # Website - start
 
-resource "azurerm_dns_a_record" "website_a_record" {
+resource "azurerm_dns_a_record" "root_to_kubernetes" {
   name                = "@"
   zone_name           = "pdnd.italia.it"
   resource_group_name = "${data.azurerm_resource_group.rg.name}"
   ttl                 = "${var.dns_record_ttl}"
-  records             = [
-    "185.199.108.153",
-    "185.199.109.153",
-    "185.199.110.153",
-    "185.199.111.153"
-  ]
+  records             = ["${data.azurerm_public_ip.kubernetes_public_ip.ip_address}"]
 }
 
 # Website - end
