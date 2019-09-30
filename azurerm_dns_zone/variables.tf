@@ -50,5 +50,7 @@ locals {
 
   # Define resource names based on the following convention:
   # {resource_name_prefix}-{environment}-{resource_type}-{resource_name}
-  azurerm_resource_group_name                = "${var.resource_name_prefix}-${var.environment}-rg"
+  resource_group_name                        = "${var.resource_name_prefix}-${var.environment}-rg"
+  resource_group_name_infra                  = "${var.resource_name_prefix}-${var.environment}"
+  azurerm_resource_group_name                = "${var.environment == "infra" ? local.resource_group_name_infra : local.resource_group_name}"
 }
